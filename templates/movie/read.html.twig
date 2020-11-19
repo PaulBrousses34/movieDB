@@ -1,0 +1,38 @@
+{% extends "base.html.twig" %}
+
+{% block body %}
+
+<div class="row">
+    <h1>{{ movie.title }}</h1>
+</div>
+<div class="row">
+    <div class="col-6">
+        <h2>Réalisateur</h2>
+        <ul>
+            {% for director in movie.directors %}
+                <li>{{ director.person.name }}</li>
+            {% endfor %}
+        </ul>
+        <h2>Casting</h2>
+        <ul>
+            {% for casting in movie.actors %}
+                <li>{{ casting.role }} ({{ casting.person.name }})</li>
+            {% endfor %}
+        </ul>
+        <h2>Staff</h2>
+        <ul>
+            {% for cm in movie.crewMembers %}
+                <li>{{ cm.person.name }} ({{ cm.job.name }})</li>
+            {% endfor %}
+        </ul>
+    </div>
+    <div class="col-6">
+        <h2>Genres</h2>
+        <ul>
+            {% for genre in movie.genres %}
+                <li>{{ genre.name }}</li>
+            {% endfor %}
+        </ul>
+    </div>
+</div>
+{% endblock %}

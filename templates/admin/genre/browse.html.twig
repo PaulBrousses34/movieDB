@@ -1,0 +1,38 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block title %}Hello GenreController!{% endblock %}
+
+{% block body %}
+
+<div class="row">
+    <h1>Liste des genres</h1>
+</div>
+<div class="row">
+    <a href="{{ path('admin_genre_add') }}">Ajouter un genre</a>
+</div>
+<table class="table table-hover">
+  <thead>
+    <tr>
+      <th scope="col">ID</th>
+      <th scope="col">Nom</th>
+      <th scope="col">Date de création</th>
+      <th scope="col">Date de mise à jour</th>
+      <th scope="col">Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for genre in genres %}
+    <tr>
+      <th scope="row">{{ genre.id }}</th>
+      <td>{{ genre.name }}</td>
+      <td>{{ genre.createdAt|date('Y-m-d H:i') }}</td>
+      <td>{{ genre.updatedAt is not null ? genre.updatedAt|date('Y-m-d H:i') }}</td>
+      <td>
+      <a href="{{ path('admin_genre_edit', {'id': genre.id}) }}">Modifier</a>
+      </td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table> 
+
+{% endblock %}

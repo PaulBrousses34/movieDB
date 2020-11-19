@@ -1,0 +1,41 @@
+{% extends "admin/base.html.twig" %}
+
+{% block body %}
+
+{{ form_start(form) }}
+
+    {{ form_row(form) }}
+    
+    <button type="submit" class="btn btn-primary">Modifier</button>
+{{ form_end(form) }}
+
+{#
+Une variable de formulaire en twig contient déjà l'objet qui lui est relié
+    vars est une propriété publique de form
+    form.vars fournit différentes informations sur le formulaire
+
+    form.vars est tableau associatif
+    Dans les clés value et data, on retrouve notre objet de la clasee Genre
+    Donc notre objet se trouve dans form.vars.data
+    on peut donc retrouver l'id du Genre avec form.vars.data.id
+#}
+{# On crée un formulaire pour la suppression de l'objet.
+    Il nous sert à s'assurer qu'on va sur la route admi_genre_delete en méthode DELETE
+    De plus, on pourra ajouter du JS pour demander la confirmation de la suppression ! #}
+{# Ce formulaire, on peut tout à fait le coder manuellement ici dans le template #}
+{# <form action="{{ path('admin_genre_delete', {'id': form.vars.data.id}) }}" method="post">
+    <input type="hidden" name="_method" value="delete">
+    <button class="btn btn-link">Supprimer</button>
+</form> #}
+
+{# Affichons le formulaire avec un objet Form créé dans le contrôleur #}
+{# {{ form_start(formDelete, {
+    'action': path('admin_genre_delete', {'id': form.vars.data.id}),
+    'method': 'delete'
+    }) }} #}
+{# La fonction du dessus est possible mais dans notre cas, c'était plus pertinent de le faire dans le contrôleur #}
+{{ form_start(formDelete) }}
+    {{ form_widget(formDelete.deleteButton, {'attr': {'class': 'btn-link'}}) }}
+{{ form_end(formDelete) }}
+ 
+{% endblock %}

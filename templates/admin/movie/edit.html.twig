@@ -1,0 +1,34 @@
+{% extends "admin/base.html.twig" %}
+
+{% block body %}
+
+<div class="row">
+    <h1>Modifier un film</h1>
+</div>
+
+{{ form_start(form) }}
+
+    {{ form_row(form.title) }}
+    
+    {{ form_label(form.genres) }}
+    {# On aimerait personnaliser les checkbox mais les options de ChoiceType
+    ne semblement pas nous aider à spécifier des noms de class
+    On va donc boucler sur form.genres et personnaliser l'affichage de chaque checkbox #}
+
+    {% for genre in form.genres %}
+        <div class="custom-control custom-checkbox">
+        {{ form_widget(genre, {
+            'attr': {'class': 'custom-control-input'},
+            'label_attr': {'class': 'custom-control-label'},
+        }) }}
+        </div>
+    {% endfor %}
+
+    <button type="submit" class="btn btn-primary">Modifier</button>
+{{ form_end(form) }}
+
+{{ form_start(formDelete) }}
+    {{ form_widget(formDelete.deleteButton, {'attr': {'class': 'btn-link'}}) }}
+{{ form_end(formDelete) }}
+ 
+{% endblock %}

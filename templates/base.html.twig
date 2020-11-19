@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>
+			{% block title %}MovieDB
+			{% endblock %}
+		</title>
+		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fork-awesome@1.1.7/css/fork-awesome.min.css" integrity="sha256-gsmEoJAws/Kd3CjuOQzLie5Q3yshhvmo7YNtBG7aaEY=" crossorigin="anonymous">
+	</head>
+	<body>
+		<div class="container">
+			<nav class="navbar navbar-expand-lg navbar-light bg-light">
+				<a class="navbar-brand" href="{{ path('movie_browse') }}">MovieDB</a>
+				<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+					<span class="navbar-toggler-icon"></span>
+				</button>
+
+				<div class="collapse navbar-collapse" id="navbarSupportedContent">
+					<ul class="navbar-nav mr-auto">
+						<li class="nav-item">
+							<a class="nav-link" href="{{ path('movie_browse') }}">Home
+							</a>
+						</li>
+                        {# {% if 'ROLE_ADMIN' in app.user.roles|default([]) %} #}
+                        {% if is_granted('ROLE_ADMIN') %}
+						<li class="nav-item">
+							<a class="nav-link" href="{{ path('admin_movie_browse') }}">Admin</a>
+						</li>
+                        {% endif %}
+					</ul>
+                    <div>
+                    {# On affiche le rôle #}
+                    <i class="fa fa-rebel" aria-hidden="true"></i>
+                    {% if app.user is null %}
+                        Visiteur
+                    {# {% elseif 'ROLE_ADMIN' in app.user.roles %} #}
+                    {% elseif is_granted('ROLE_ADMIN') %}
+                        Administrateur                    
+                    {% else %}
+                        Utilisateur
+                    {% endif %}
+
+                    {# On affiche l'email de l'utilisateur connecté avec un bouton de (dé)connexion #}
+                    {% if app.user is not null %}
+                        <i class="fa fa-user-circle" aria-hidden="true"></i>
+                        {{ app.user.email }}
+                        <a href="{{ path('app_logout') }}" class="btn btn-danger">Déconnexion</a>
+                    {% else %}
+                        <a href="{{ path('app_login') }}" class="btn btn-success">Connexion</a>                        
+                    {% endif %}
+                    </div>
+				</div>
+			</nav>
+			{% block body %}{% endblock %}
+		</div>
+		{% block javascripts %}{% endblock %}
+	</body>
+</html>

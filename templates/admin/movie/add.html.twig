@@ -1,0 +1,12 @@
+{% extends "admin/base.html.twig" %}
+
+{% block body %}
+
+{{ form_start(form) }}
+
+    {{ form_row(form) }}
+    
+    <button type="submit" class="btn btn-primary">Ajouter</button>
+{{ form_end(form) }}
+
+{% endblock %}

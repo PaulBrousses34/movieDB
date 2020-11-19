@@ -1,0 +1,76 @@
+{{ form_start(form) }}
+    {{ form_widget(form.email) }}
+
+    {# Exemple pour form.roles avec un CollectionType #}
+     {# <div id="roles-list" class="row"
+        data-prototype="{{ form_widget(form.roles.vars.prototype)|e }}"
+        data-widget-tags="{{ '<div class="col-3"></div>'|e }}"
+        data-widget-counter="{{ form.roles|length }}">
+    {% for role in form.roles %}
+        <div class="col-3">
+            {{ form_widget(role) }}
+        </div>
+    {% endfor %}
+    </div>
+        <button type="button" id="add-button" class="btn btn-primary"
+        data-list-selector="#roles-list">Ajouter un rôle</button> #}
+
+    {# Exemple pour form.roles avec un ChoiceType #}
+    {{ form_widget(form.roles) }}
+    {{ form_widget(form.password) }}
+
+    {# On affiche la checkbox des CGU si elle existe dans le formulaire #}
+    {% if form.cgu is defined %}
+        {{ form_widget(form.cgu) }}
+    {% endif %}
+
+    <button class="btn">{{ button_label|default('Save') }}</button>
+{{ form_end(form) }}
+
+
+<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+{# <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script> #}
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+<script>
+
+jQuery(document).ready(function () {
+    jQuery('#add-button').click(function (e) {
+        var list = jQuery(jQuery(this).attr('data-list-selector'));
+        // Try to find the counter of the list or use the length of the list
+        var counter = list.data('widget-counter') || list.children().length;
+
+        // grab the prototype template
+        var newWidget = list.attr('data-prototype');
+        // replace the "__name__" used in the id and name of the prototype
+        // with a number that's unique to your emails
+        // end name attribute looks like name="contact[emails][2]"
+        newWidget = newWidget.replace(/__name__/g, counter);
+        // Increase the counter
+        counter++;
+        // And store it, the length cannot be used if deleting widgets is allowed
+        list.data('widget-counter', counter);
+
+        // create a new list element and add it to the list
+        var newElem = jQuery(list.attr('data-widget-tags')).html(newWidget);
+        newElem.appendTo(list);
+        addTagFormDeleteLink(newElem);
+    });
+
+    $collectionHolder = $('#roles-list');
+
+    $collectionHolder.find('div').each(function() {
+        addTagFormDeleteLink($(this));
+    });
+
+    function addTagFormDeleteLink($tagFormLi) {
+    var $removeFormButton = $('<button type="button">&times;</button>');
+    $tagFormLi.append($removeFormButton);
+
+    $removeFormButton.on('click', function(e) {
+        // remove the li for the tag form
+        $tagFormLi.remove();
+    });
+}
+
+});
+</script>

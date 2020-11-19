@@ -1,0 +1,22 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello MovieController!{% endblock %}
+
+{% block body %}
+<div class="row">
+    <h1>MovieDB</h1>
+</div>
+
+<div class="row">
+
+{% for movie in movies %}
+    <div class="card col-3">
+    <div class="card-body">
+        <h5 class="card-title">{{ movie.title }}</h5>
+        <a href="{{ path('movie_read_slug', {'slug': movie.slug}) }}" class="card-link">Voir la fiche</a>
+    </div>
+    </div>
+{% endfor %}
+
+</div>
+{% endblock %}
